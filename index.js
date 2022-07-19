@@ -4,23 +4,18 @@ const PORT = 8080;
 
 app.use(express.json());
 
-app.get("/tshirt", (req, res) => {
+app.get("/", (req, res) => {
   res.status(200).send({
-    tshirt: "shirt",
-    size: "large",
+    hello: "hello",
+    world: "world",
   });
 });
 
-app.post("/tshirt/:id", (req, res) => {
+app.post("/:id", (req, res) => {
   const { id } = req.params;
-  const { logo } = req.body;
-
-  if (!logo) {
-    res.status(418).send({ message: "We need a logo!" });
-  }
 
   res.send({
-    tshirt: `shirt with your ${logo} and ID of ${id}`,
+    hello: `Hello World with ID of ${id}`,
   });
 });
 

@@ -29,7 +29,28 @@ async function poolDemo() {
 }
 
 routes.get("/", async (req, res) => {
-  const result = await poolDemo();
+  const pool = new Pool({
+    connectionString,
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  });
+  const result = await pool.query("SELECT * FROM users");
+  await pool.end();
+  console.log(result.rows);
+  res.status(200).send(result.rows);
+});
+
+routes.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  const pool = new Pool({
+    connectionString,
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  });
+  const result = await pool.query("SELECT * FROM users WHERE id = " + id);
+  await pool.end();
   console.log(result.rows);
   res.status(200).send(result.rows);
 });
